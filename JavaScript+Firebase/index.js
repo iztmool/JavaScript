@@ -1,5 +1,12 @@
 var firebaseConfig = {
-    apiKey: 
+    apiKey: "AIzaSyCrbxNfjet0OM2zsLwGWW5PSXGRWhNB-Gw",
+    authDomain: "practica-1-javascript-firebase.firebaseapp.com",
+    databaseURL: "https://practica-1-javascript-firebase.firebaseio.com",
+    projectId: "practica-1-javascript-firebase",
+    storageBucket: "practica-1-javascript-firebase.appspot.com",
+    messagingSenderId: "119455403765",
+    appId: "1:119455403765:web:a4dae7d3e2c3a4264effbc",
+    measurementId: "G-DRT9TD93LL"
     .
     .
     .
@@ -26,16 +33,16 @@ function createR() {
     //validaciones
     if (id.length > 0) {
         //creo un objeto que guarda los datos
-        var alumno = {
-            id, //matricula:id
+        var Modelo = {
+            id, //marca:id
             nombre,
             correo,
-            carrera,
+            marca,
         }
 
         //console.log(alumno);
 
-        firebase.database().ref('Alumnos/' + id).update(alumno).then(() => {
+        firebase.database().ref('Modelo/' + id).update(Modelo).then(() => {
            resetFields();
         }).then(()=>{
            read();
@@ -60,8 +67,8 @@ function createR() {
   
     //Esto se usa cuando no tienen un id/matricula y Firebase les genera una
     //automaticamente
-    //const key = firebase.database().ref().child('Alumnos').push().key;
-    //data[`Alumnos/${key}`]= alumno;
+    //const key = firebase.database().ref().child('Modelos').push().key;
+    //data[`Modelos/${key}`]= Modelo;
     //firebase.database().ref().update(data).then(()=>{
     //  alert('Agregado exitosamente');
     //})
@@ -70,7 +77,7 @@ function createR() {
 function read(){
     document.getElementById("Table1").innerHTML='';
 
-    var ref = firebase.database().ref('Alumnos');
+    var ref = firebase.database().ref('Modelos');
 /**   
    ref.on('value', function(snapshot) {
         snapshot.forEach(row=>{
@@ -85,9 +92,9 @@ function read(){
 
 }
 
-function printRow(alumno){
+function printRow(Modelo){
     
-    if(alumno!=null){
+    if(Modelo!=null){
         var table = document.getElementById("Table1"); 
 
         //creamos un nuevo elemento en la tabla en la ultima posicion
@@ -102,17 +109,17 @@ function printRow(alumno){
         var cell6 = row.insertCell(5);
         
         //Agregamos la informacion a cada una de las columnas del registro
-        cell1.innerHTML = alumno.id;
-        cell2.innerHTML = alumno.nombre; 
-        cell3.innerHTML = alumno.correo;
-        cell4.innerHTML = alumno.carrera; 
-        cell5.innerHTML = `<button type="button" class="btn btn-danger" onClick="deleteR(${alumno.id})">Eliminar</button>`;
-        cell6.innerHTML = '<button type="button" class="btn btn-success" onClick="seekR('+alumno.id+')">Modificar</button>';
+        cell1.innerHTML = Modelo.id;
+        cell2.innerHTML = Modelo.nombre; 
+        cell3.innerHTML = Modelo.correo;
+        cell4.innerHTML = Modelo.Marca; 
+        cell5.innerHTML = `<button type="button" class="btn btn-danger" onClick="deleteR(${Modelo.id})">Eliminar</button>`;
+        cell6.innerHTML = '<button type="button" class="btn btn-success" onClick="seekR('+Modelo.id+')">Modificar</button>';
     }
 }
 
 function deleteR(id){
-    firebase.database().ref('Alumnos/' + id).set(null).then(() => {
+    firebase.database().ref('Modelos/' + id).set(null).then(() => {
       read();
     }).then(()=>{
        swal("Listo!", "Eliminado correctamente", "success");
@@ -120,20 +127,20 @@ function deleteR(id){
 }
 
 function seekR(id){
-    var ref = firebase.database().ref('Alumnos/' + id);
+    var ref = firebase.database().ref('Modelos/' + id);
     ref.on('value', function(snapshot) {
       updateR(snapshot.val());
     });
 }
 
-function updateR(alumno){
-    if(alumno!=null)
+function updateR(Modelo){
+    if(Modelo!=null)
     {
-        document.getElementById("Input1").value=alumno.id;
+        document.getElementById("Input1").value=Modelo.id;
         document.getElementById("Input1").disabled = true;
-        document.getElementById("Input2").value=alumno.nombre;
-        document.getElementById("Input3").value=alumno.correo;
-        document.getElementById("Input4").value=alumno.carrera;
+        document.getElementById("Input2").value=Modelos.nombre;
+        document.getElementById("Input3").value=Modelos.correo;
+        document.getElementById("Input4").value=Modelos.Marca;
     }
 }
 
@@ -143,15 +150,15 @@ function readQ(){
     document.getElementById("Table2").innerHTML='';
     var c = document.getElementById("Input5").value;
 
-    var ref = firebase.database().ref("Alumnos");
-    ref.orderByChild("carrera").equalTo(c).on("child_added", function(snapshot) {
+    var ref = firebase.database().ref("Modelos");
+    ref.orderByChild("Marca").equalTo(c).on("child_added", function(snapshot) {
         printRowQ(snapshot.val());
     });
 
 }
 
 
-function printRowQ(alumno){
+function printRowQ(Marca){
 
     var table = document.getElementById("Table2"); 
     
@@ -165,9 +172,9 @@ function printRowQ(alumno){
     var cell4 = row.insertCell(3);
     
     //Agregamos la informacion a cada una de las columnas del registro
-    cell1.innerHTML = alumno.id;
-    cell2.innerHTML = alumno.nombre; 
+    cell1.innerHTML = Marca.id;
+    cell2.innerHTML = Marca.nombre; 
     cell3.innerHTML = alumno.correo;
-    cell4.innerHTML = alumno.carrera; 
+    cell4.innerHTML = Marca.Modelo; 
    
 }
